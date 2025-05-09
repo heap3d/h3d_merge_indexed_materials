@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package version="801">
+	<kit name="h3d_merge_indexed_materials" restart="YES">
+		<source target="h3d_merge_indexed_materials/index.cfg">index.cfg</source>
+		<source target="h3d_merge_indexed_materials/scripts/merge_indexed_materials.py">scripts/merge_indexed_materials.py</source>
+	</kit>
+	<message button="Help">h3d_merge_indexed_materials Kit installation complete.</message>
+</package>
