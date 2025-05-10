@@ -14,8 +14,6 @@ import lx
 import modo
 import modo.constants as c
 
-from h3d_utilites.scripts.h3d_debug import h3dd, prints, fn_in, fn_out
-
 
 def main():
     meshes: list[modo.Mesh] = modo.Scene().items(itype=c.MESH_TYPE)  # type: ignore
@@ -32,19 +30,13 @@ def main():
     if not merged_ptags:
         return
 
-    prints(merged_ptags)
-
     for mesh in meshes:
         mesh.select()
 
     for merged_ptag in merged_ptags:
-        prints(merged_ptag)
         tags = merged_ptags[merged_ptag]
-        prints(tags)
         tags.sort(key=len)
-        prints(tags)
         duplicated_tags = tags[1:]
-        prints(duplicated_tags)
 
         duplicated_masks = get_masks_by_tags(duplicated_tags)
         modo.Scene().removeItems(duplicated_masks, children=True)
@@ -79,31 +71,23 @@ def get_merged_ptag(ptag: str) -> str:
 
 
 def get_masks_by_tags(tags: Iterable[str]) -> tuple[modo.Item, ...]:
-    fn_in()
-    prints(tags)
     if not tags:
-        fn_out('not tags')
         return ()
 
     filtered_masks: list[modo.Item] = list()
     masks = modo.Scene().items(itype=c.MASK_TYPE)
     if not masks:
-        fn_out('not masks')
         return ()
 
     for mask in masks:
-        prints(mask)
         if not is_material_ptyp(get_ptag_type(mask)):
-            prints('mask not material ptyp')
             continue
 
         if get_ptag(mask) not in tags:
-            prints(f'{get_ptag(mask)} not in tags')
             continue
 
         filtered_masks.append(mask)
 
-    fn_out()
     return tuple(filtered_masks)
 
 
@@ -112,11 +96,7 @@ def get_shadertree_masks() -> set[modo.Item]:
 
 
 def rename_tag(old: str, new: str):
-    fn_in()
-    prints(old)
-    prints(new)
     lx.eval(f'poly.renameMaterial {{{old}}} {{{new}}}')
-    fn_out()
 
 
 def get_ptag_type(mask_item: modo.Item) -> str:
@@ -141,5 +121,4 @@ def is_material_ptyp(ptyp):
 
 
 if __name__ == '__main__':
-    h3dd.enable_debug_output()
     main()
